@@ -164,7 +164,7 @@ def main():
     list_of_winners: list = []
     elapsed_time: int = 0
 
-    while len(list_of_winners) < type_of_race:
+    while horses:
         elapsed_time += 10
         game_round(horses)
         visual_progression(horses)
@@ -173,7 +173,7 @@ def main():
         time.sleep(.2)
         os.system('cls')
 
-    display_of_winners(list_of_winners)
+    display_of_winners(list_of_winners[:type_of_race])
 
     input('')
 
