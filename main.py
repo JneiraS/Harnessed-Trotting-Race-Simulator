@@ -36,9 +36,26 @@ def alteration_of_speed(actual_speed: int) -> int:
 
 def horse_progress(speed: int) -> int:
     """
-
+    Calcule la progression d'un cheval en fonction de sa vitesse actuelle.
     """
-    return [i*23 for i in range(7)][speed]
+    return [i * 23 for i in range(7)][speed]
+
+
+def horse(num: int) -> dict:
+    """
+    Crée un cheval avec un nom, une vitesse initiale et une distance parcourue initiale.
+    """
+    return {'Name': f'Horse_{num}',
+            'Speed': 0,
+            'Distances covered': 0
+            }
+
+
+def horse_factory(number_of_horses: int):
+    """
+    Crée une liste de chevaux en utilisant la fonction horse.
+    """
+    return [horse(n+1) for n in range(number_of_horses)]
 
 
 def main():
@@ -46,4 +63,4 @@ def main():
 
 
 if __name__ == '__main__':
-    horse_progress(0)
+    print(horse_factory(12))
