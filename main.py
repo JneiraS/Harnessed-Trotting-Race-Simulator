@@ -5,6 +5,8 @@ import os
 import random
 import time
 
+track_length: int = 2400
+
 
 def game_title(func: any):
     """
@@ -51,6 +53,7 @@ def alteration_of_speed(actual_speed: int) -> int:
         [-2, -1, 0, 0, 0, 1],
         [-2, -1, 0, 0, 0, 'DQ'],
     ]
+
     dice: int = dice_roll()
     return sheet[actual_speed + 1][dice - 1]
 
@@ -107,29 +110,27 @@ def game_conf() -> tuple[list[dict], int]:
             "Attention! vous devez saisir des entiers dans les conditions demandées")
 
 
-def game_round(participants):
+def game_round(participants, disqualified: list):
     """
     Effectue un tour de jeu pour chaque participant.
     """
     for participant in participants:
-        participant['Speed'] = alteration_of_speed(participant['Speed']) if alteration_of_speed(
-            participant['Speed']) is not int else -2400
-        participant['Distances covered'] += horse_progress(participant['Speed'])
+        participant['Speed'] = alteration_of_speed(participant['Speed'])
+        try:
+            participant['Distances covered'] += horse_progress(participant['Speed'])
+        except TypeError:
+            disqualified.append(participant)
+            participants.remove(participant)
 
 
-def visual_progression(hosres: list[dict]):
+def racetrack(hosres) -> None:
     """
-    Affiche la progression visuelle de chaque cheval sur la piste.
+    Affiche une barre de progression pour chaque cheval dans la course, basée sur les distances couvertes.
     """
-
-    racetrack(hosres)
-
-
-def racetrack(hosres):
     print('+ - - ' * 18 + '\n')
     for h in hosres:
         progress_bar: str = ' ' * (h['Distances covered'] // 23) + ' U-R`'
-        print(f'{progress_bar:110}|\n')
+        print(f'{h['Name'][6:]}{progress_bar:110}|\n')
     print('+ - - ' * 18)
 
 
@@ -138,19 +139,23 @@ def crossed_the_finish_line(horses, list_of_winners):
     Vérifie quels chevaux ont franchi la ligne d'arrivée et les ajoute à la liste des gagnants.
     """
     for h in horses:
-        if h['Distances covered'] > 2400:
+        if h['Distances covered'] > track_length:
             winners = horses.pop(horses.index(h))
             list_of_winners.append(winners)
 
 
 @game_title
-def display_of_winners(winners: list):
+def display_results(winners: list, disqualified: list):
     """
     Affiche les gagnants dans l'ordre d'arrivée.
     """
-    print(f"\tDans l'ordre d'arrivé, les gagnats son:\n")
+    print(f"\tDans l'ordre d'arrivé, les gagnats sont:\n")
     for winer in winners:
         print(f"\t\t{winer['Name']}")
+
+    print(f"\n\tLes chevaux discalifiés sont:\n")
+    for dq in disqualified:
+        print(f"\t\t{dq['Name']}")
 
 
 def display_elapsed_time(elapsed_time):
@@ -163,22 +168,20 @@ def main():
     horses, type_of_race = game_conf()
     list_of_winners: list = []
     elapsed_time: int = 0
+    list_of_disqualified = []
 
     while horses:
         elapsed_time += 10
-        game_round(horses)
-        visual_progression(horses)
+        game_round(horses, list_of_disqualified)
+        racetrack(horses)
         crossed_the_finish_line(horses, list_of_winners)
         display_elapsed_time(elapsed_time)
-        time.sleep(.2)
+        time.sleep(.1)
         os.system('cls')
 
-    display_of_winners(list_of_winners[:type_of_race])
+    display_results(list_of_winners[:type_of_race], list_of_disqualified)
 
     input('')
-
-
-
 
 
 if __name__ == '__main__':
