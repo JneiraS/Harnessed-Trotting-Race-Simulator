@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import random
+import time
 
 
 def dice_roll() -> int:
@@ -47,7 +49,7 @@ def horse(num: int) -> dict:
     """
     return {'Name': f'Horse_{num}',
             'Speed': 0,
-            'Distances covered': 0
+            "Distances covered": 0
             }
 
 
@@ -70,7 +72,7 @@ def game_conf() -> tuple[list[dict], int]:
     """
     options: list = [
         input("\nNombre de chevaux (12 à 20): "),
-        input("Type (tiercé (3), quarté(4), quinté(5): "),
+        input("Type de course (tiercé (3), quarté(4), quinté(5): "),
     ]
 
     if (
@@ -92,17 +94,50 @@ def game_round(participants):
     """
     for participant in participants:
         participant['Speed'] = alteration_of_speed(participant['Speed'])
-        participant['Distances covered'] = horse_progress(participant['Speed'])
+        participant['Distances covered'] += horse_progress(participant['Speed'])
+
+
+def visual_progression(hosres: list[dict]):
+    """
+    Affiche la progression visuelle de chaque cheval sur la piste.
+    """
+    for h in hosres:
+        print('-' * (h['Distances covered'] // 23) + 'P')
+
+
+def crossed_the_finish_line(horses, list_of_winners):
+    """
+    Vérifie quels chevaux ont franchi la ligne d'arrivée et les ajoute à la liste des gagnants.
+    """
+    for h in horses:
+        if h['Distances covered'] > 2400:
+            winners = horses.pop(horses.index(h))
+            list_of_winners.append(winners)
+
+
+def display_of_winners(winners: list):
+    """
+    Affiche les gagnants dans l'ordre d'arrivée.
+    """
+    print(f"\tDans l'ordre d'arrivé les gagnats son:\n")
+    for winer in winners:
+        print(f"\t{winer['Name']}")
 
 
 def main():
     horses, type_of_race = game_conf()
-    game_round(horses)
+    list_of_winners: list = []
 
-    print(horses)
+    while len(list_of_winners) < type_of_race:
+        game_round(horses)
+        visual_progression(horses)
+        crossed_the_finish_line(horses, list_of_winners)
+        time.sleep(.1)
+        os.system('cls')
 
+    display_of_winners(list_of_winners)
 
-
+    input('FINISH')
 
 
 if __name__ == '__main__':

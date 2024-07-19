@@ -1,4 +1,4 @@
-### **Avancement:** ![](https://geps.dev/progress/80)
+### **Avancement:** ![](https://geps.dev/progress/95)
 ___
 
 # Harnessed-Trotting-Race-Simulator
@@ -45,8 +45,8 @@ ___
 
 - **Configuration initiale** :
     ```
-    Nombre de chevaux (12-20) : 15
-    Type de course (tiercé (3), quarté (4), quinté (5)) : 3
+    Nombre de chevaux (12 à 20): 12
+    Type de course (tiercé (3), quarté(4), quinté(5): 5
     ```
 - **Déroulement d'un tour de course** :
     ```
