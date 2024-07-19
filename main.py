@@ -34,9 +34,16 @@ def alteration_of_speed(actual_speed: int) -> int:
     return sheet[actual_speed + 1][dice - 1]
 
 
+def horse_progress(speed: int) -> int:
+    """
+
+    """
+    return [i*23 for i in range(7)][speed]
+
+
 def main():
     ...
 
 
 if __name__ == '__main__':
-    alteration_of_speed()
+    horse_progress(0)
