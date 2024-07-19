@@ -129,7 +129,7 @@ def racetrack(hosres) -> None:
     """
     print('+ - - ' * 18 + '\n')
     for h in hosres:
-        progress_bar: str = ' ' * (h['Distances covered'] // 23) + ' U-R`'
+        progress_bar: str = ' ' * (h['Distances covered'] // 23) + f'{h['Distances covered']}-R`'
         print(f'{h['Name'][6:]}{progress_bar:110}|\n')
     print('+ - - ' * 18)
 
