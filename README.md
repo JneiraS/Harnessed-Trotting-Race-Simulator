@@ -1,5 +1,3 @@
-### **Avancement:** ![](https://geps.dev/progress/95)
-___
 
 # Harnessed-Trotting-Race-Simulator
 
@@ -17,7 +15,6 @@ ___
   - À chaque tour, un jet de dé à 6 faces détermine une altération possible de la vitesse de chaque cheval (augmentation, stabilisation, diminution).
   - La vitesse mise à jour détermine la distance parcourue par chaque cheval.
   - Chaque tour représente 10 secondes de la course.
-  - L'utilisateur avance la course tour par tour à la suite d'un message du programme.
 - **Disqualification** : Les chevaux passant au galop sont disqualifiés.
 
 ## Installation
@@ -47,14 +44,6 @@ ___
     ```
     Nombre de chevaux (12 à 20): 12
     Type de course (tiercé (3), quarté(4), quinté(5): 5
-    ```
-- **Déroulement d'un tour de course** :
-    ```
-    Tour 1 :
-    Cheval 1 : vitesse augmentée, distance parcourue : 120 m
-    Cheval 2 : vitesse stabilisée, distance parcourue : 115 m
-    ...
-    Appuyez sur Entrée pour continuer au tour suivant.
     ```
 ## Prérequis
 
