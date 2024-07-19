@@ -13,7 +13,7 @@ def dice_roll() -> int:
 
 def alteration_of_speed(actual_speed: int) -> int:
     """
-    Calcule l'altération de vitesse en fonction de la vitesse actuelle, d'un lancé de dé simulé par la
+    Calcule l'altération de vitesse en fonction de la vitesse actuelle, d'un jet de dé simulé par la
     fonction dice_roll() et d'une matrice.
     La matrice contient des valeurs numériques représentant l'altération de vitesse ainsi qu'une valeur
     'DQ' qui représenter une disqualification.
@@ -34,11 +34,11 @@ def alteration_of_speed(actual_speed: int) -> int:
     return sheet[actual_speed + 1][dice - 1]
 
 
-def horse_progress(speed: int) -> int:
+def horse_progress(actual_speed: int) -> int:
     """
     Calcule la progression d'un cheval en fonction de sa vitesse actuelle.
     """
-    return [i * 23 for i in range(7)][speed]
+    return [i * 23 for i in range(7)][actual_speed]
 
 
 def horse(num: int) -> dict:
@@ -86,8 +86,22 @@ def game_conf() -> tuple[list[dict], int]:
             "Attention! vous devez saisir des entiers dans les conditions demandées")
 
 
+def game_round(participants):
+    """
+    Effectue un tour de jeu pour chaque participant.
+    """
+    for participant in participants:
+        participant['Speed'] = alteration_of_speed(participant['Speed'])
+        participant['Distances covered'] = horse_progress(participant['Speed'])
+
+
 def main():
-    horses, type_oof_race = game_conf()
+    horses, type_of_race = game_conf()
+    game_round(horses)
+
+    print(horses)
+
+
 
 
 
