@@ -31,7 +31,7 @@ def dice_roll() -> int:
     """
     Simule le jet d'un dé à 6 faces
     """
-    return random.choice(range(1, 6))
+    return random.choice(range(1, 7))
 
 
 def alteration_of_speed(actual_speed: int) -> int:
