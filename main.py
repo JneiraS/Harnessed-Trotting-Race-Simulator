@@ -6,6 +6,25 @@ import random
 import time
 
 
+def game_title(func: any):
+    """
+    Décorateur qui efface la console et imprime un titre de jeu avant d'exécuter la fonction décorée.
+    Args :
+        func (any) :
+    """
+
+    def wrapper(*args, **kwargs):
+        print("""
+      _____,,;;;`;                                   ;';;;,,_____
+   ,~(  )  , )~~\\| Harnessed-Trotting-Race-Simulator |/~~( ,  (  )~;
+   ' / / --`--,                                         .--'-- \\ \\ `
+    /  \\    | '                                          ` |    /  \\
+        \n""")
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
 def dice_roll() -> int:
     """
     Simule le jet d'un dé à 6 faces
@@ -71,8 +90,8 @@ def game_conf() -> tuple[list[dict], int]:
     :return: Une liste de chevaux et le type de course si les entrées sont valides.
     """
     options: list = [
-        input("\nNombre de chevaux (12 à 20): "),
-        input("Type de course (tiercé (3), quarté(4), quinté(5): "),
+        input("\n\tNombre de chevaux (12 à 20): "),
+        input("\tType de course (tiercé (3), quarté(4), quinté(5): "),
     ]
 
     if (
@@ -93,7 +112,8 @@ def game_round(participants):
     Effectue un tour de jeu pour chaque participant.
     """
     for participant in participants:
-        participant['Speed'] = alteration_of_speed(participant['Speed'])
+        participant['Speed'] = alteration_of_speed(participant['Speed']) if alteration_of_speed(
+            participant['Speed']) is not int else -2400
         participant['Distances covered'] += horse_progress(participant['Speed'])
 
 
@@ -101,8 +121,16 @@ def visual_progression(hosres: list[dict]):
     """
     Affiche la progression visuelle de chaque cheval sur la piste.
     """
+
+    racetrack(hosres)
+
+
+def racetrack(hosres):
+    print('+ - - ' * 18 + '\n')
     for h in hosres:
-        print('-' * (h['Distances covered'] // 23) + 'P')
+        progress_bar: str = ' ' * (h['Distances covered'] // 23) + ' U-R`'
+        print(f'{progress_bar:110}|\n')
+    print('+ - - ' * 18)
 
 
 def crossed_the_finish_line(horses, list_of_winners):
@@ -115,29 +143,42 @@ def crossed_the_finish_line(horses, list_of_winners):
             list_of_winners.append(winners)
 
 
+@game_title
 def display_of_winners(winners: list):
     """
     Affiche les gagnants dans l'ordre d'arrivée.
     """
-    print(f"\tDans l'ordre d'arrivé les gagnats son:\n")
+    print(f"\tDans l'ordre d'arrivé, les gagnats son:\n")
     for winer in winners:
-        print(f"\t{winer['Name']}")
+        print(f"\t\t{winer['Name']}")
 
 
+def display_elapsed_time(elapsed_time):
+    race_time = f'{elapsed_time // 60}:{elapsed_time % 60}'
+    print(f"{race_time:^110}")
+
+
+@game_title
 def main():
     horses, type_of_race = game_conf()
     list_of_winners: list = []
+    elapsed_time: int = 0
 
     while len(list_of_winners) < type_of_race:
+        elapsed_time += 10
         game_round(horses)
         visual_progression(horses)
         crossed_the_finish_line(horses, list_of_winners)
-        time.sleep(.1)
+        display_elapsed_time(elapsed_time)
+        time.sleep(.2)
         os.system('cls')
 
     display_of_winners(list_of_winners)
 
-    input('FINISH')
+    input('')
+
+
+
 
 
 if __name__ == '__main__':
