@@ -115,8 +115,8 @@ def game_round(participants, disqualified: list):
     Effectue un tour de jeu pour chaque participant.
     """
     for participant in participants:
-        participant['Speed'] = alteration_of_speed(participant['Speed'])
         try:
+            participant['Speed'] += alteration_of_speed(participant['Speed'])
             participant['Distances covered'] += horse_progress(participant['Speed'])
         except TypeError:
             disqualified.append(participant)
@@ -176,7 +176,7 @@ def main():
         racetrack(horses)
         crossed_the_finish_line(horses, list_of_winners)
         display_elapsed_time(elapsed_time)
-        time.sleep(.1)
+        time.sleep(.5)
         os.system('cls')
 
     display_results(list_of_winners[:type_of_race], list_of_disqualified)
